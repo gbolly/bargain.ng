@@ -1,0 +1,43 @@
+{% extends "standard_page.html" %}
+{% load static %}
+{% load cloudinary %}
+{% load widget_tweaks %}
+{% load bootstrap3 %}
+
+{% block head_title %}Create Center{% endblock %}
+
+{% block extended_css %}
+    <link rel="stylesheet" href="{% static 'css/centers/new_center.css' %}" />
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-xs-11 col-sm-5 form-card">
+            <h1>New Product</h1>
+            <div class="reg-form">
+                <div class="new-center">
+                    <form method="POST" class="new-center-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="custom-form-group">
+                            <div class="custom-input-group">
+                                {% if form.errors %}
+                                    {% for error in form.non_field_errors %}
+                                        {% bootstrap_alert error alert_type='error' %}
+                                    {% endfor %}
+                                {% endif %}
+                                {% bootstrap_form form %}
+                                {{ formset.management_form }}
+                                {% for form in formset %}
+                                    {% bootstrap_form form %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row center-buttons">
+                            {% bootstrap_button "Save" button_type="submit" button_class="save btn btn-action btn-form-submit" %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

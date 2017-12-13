@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block standard_css %}
+    <link rel="stylesheet" href="{% static 'css/nav_styling.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}" />
+    {% block extended_css %}
+    {% endblock extended_css %}
+{% endblock standard_css %}
+
+{% block navbar %}
+    <div class="navbar navbar-default nav-container">
+        <div class="container-fluid">
+            <div class="nav-header">
+                <div class="brand">
+                   <a href="/">
+                       <p class="logo">Bargain</p>
+                   </a>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav nav-list">
+                    <li><a href="/">Home</a></li>
+                    {# <li><a href="/center">All Centers</a></li> #}
+                    <li><a href="#">Contact Us</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" type="button" data-toggle="dropdown">Hi {{ user }}
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'account' %}">Profile</a></li>
+                                <li><a href="{% url 'user_offers' slug=request.user %}">My Offers</a></li>
+                                {% if not request.user.userprofile.is_merchant %}
+                                    <li><a href="/products">Start Pricing</a></li>
+                                {% endif %}
+                                {% if request.user.userprofile.is_merchant %}
+                                    <li><a href="{% url 'new_product' %}">Add a new Product</a></li>
+                                    <li><a href="{% url 'merchant_manage_products' username=request.user %}">Manage you Products</a></li>
+                                    <li><a href="{% url 'offering_list' username=request.user %}">Manage your offers</a></li>
+                                {% endif %}
+                                {% if request.user.is_staff %}
+                                    <li><a href="/admin">Admin</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="option"><a href="/login" class="">Sign in</a></li>
+                        <li class="option"><a class="hidden-xs" href="/register">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock navbar %}
+
+{% block main %}
+{% endblock main %}
+{% block extra_script %}
+{% endblock extra_script %}

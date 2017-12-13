@@ -1,0 +1,42 @@
+.top {
+  padding-bottom: 20px; }
+  .top .location-search {
+    margin-top: 20px; }
+    .top .location-search form .add-on {
+      width: 86%; }
+
+.container-fluid {
+  padding: 0 100px; }
+  .container-fluid .card {
+    position: relative;
+    display: block;
+    margin-bottom: .75rem;
+    background-color: #fff;
+    border-radius: .25rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0 0 20px 0; }
+    .container-fluid .card img {
+      width: 100%; }
+      .container-fluid .card img.thumbnail {
+        padding: 0;
+        margin-bottom: 0;
+        height: 250px; }
+    .container-fluid .card .card-block {
+      padding: 15px; }
+      .container-fluid .card .card-block .card-title {
+        text-transform: uppercase; }
+      .container-fluid .card .card-block .updated {
+        display: inline-block; }
+      .container-fluid .card .card-block .read-on {
+        float: right; }
+        .container-fluid .card .card-block .read-on a {
+          text-transform: uppercase; }
+      .container-fluid .card .card-block .book,
+      .container-fluid .card .card-block .edit {
+        display: block;
+        text-align: center;
+        padding: 12px; }
+      .container-fluid .card .card-block .edit {
+        margin-top: 5px; }
+
+/*# sourceMappingURL=center_styling.css.map */

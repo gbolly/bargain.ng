@@ -1,0 +1,136 @@
+{% extends "standard_page.html" %}
+{% load static %}
+
+{% block extended_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accounts/profile_page.css' %}">
+{% endblock extended_css %}
+
+{% block main %}
+    <div class="row content">
+        {% if messages %}
+            <div class="col-sm-12 no-left">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <a class="close" data-dismiss="alert">×</a>
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="form-card">
+            <header class="row">
+                <div class="col-lg-4">
+                    <h1>Your Profile Page</h1>
+                </div>
+            </header>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="custom-form-group">
+                        <label>Email <span class="label-asterik">*</span></label>
+                        <div class="custom-input-group">
+                            <input type="text" name="interest" id="" value="{{ request.user.email }}" placeholder="" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="custom-form-group">
+                        <label>Username <span class="label-asterik">*</span></label>
+                        <div class="custom-input-group">
+                            <input type="text" name="interest" id="" value="{{ request.user.username }}" placeholder="" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form action="{% url 'account_profile' %}" method="POST" id="profile-section">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="custom-form-group">
+                            <label>First Name <span class="label-asterik">*</span></label>
+                            <div class="custom-input-group">
+                                <input class="form-control" type="text" name="first_name" id="first_name" value="{{ request.user.first_name }}" placeholder="" {% if not request.user.first_name %} required {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <div class="custom-form-group">
+                            <label>Last Name <span class="label-asterik">*</span></label>
+                            <div class="custom-input-group">
+                                <input type="text" name="last_name" id="last_name" value="{{ request.user.last_name }}" placeholder="" {% if not request.user.last_name %} required {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <div class="custom-form-group">
+                            <label>Phone Number <span class="label-asterik">*</span></label>
+                            <div class="custom-input-group">
+                                <input type="tel" name="phonenumber" id="mobile-number" value="{{ profile.phonenumber }}" placeholder="" {% if not profile.phonenumber %} required {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <div class="custom-form-group">
+                            <label>Address <span class="label-asterik">*</span></label>
+                            <div class="custom-input-group">
+                                <input type="text" name="location" id="location" value="{{ profile.location }}" placeholder="" {% if not profile.location %} required {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if request.user.userprofile.is_merchant %}
+                        <div class="col-xs-6">
+                            <div class="custom-form-group">
+                                <label>Bank Account Name <span class="label-asterik">*</span></label>
+                                <div class="custom-input-group">
+                                    <select name="bank_name" placeholder="Select" id="user-bank_name" value="{{ profile.bank_account_name }}" placeholder="" {% if not profile.bank_account_name %} required {% endif %}>
+                                        <option value="0" selected>Select your Bank</option>
+                                        {% for choice in bank_account_name.choices %}
+                                            <option value="{{ choice.0 }}">
+                                                {{ choice.1 }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="custom-form-group">
+                                <label>Bank Account Number <span class="label-asterik">*</span></label>
+                                <div class="custom-input-group">
+                                    <input type="number" name="bank_acc_num" id="bank_acc_num" value="{{ profile.bank_account_number }}" placeholder="" {% if not profile.bank_account_number %} required {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="custom-form-group">
+                                <label>Alternative Contact Name <span class="label-asterik">*</span></label>
+                                <div class="custom-input-group">
+                                    <input type="text" name="alt_contact_name" id="alt_contact_name" value="{{ profile.alternative_contact_name }}" placeholder="" {% if not profile.alternative_contact_name %} required {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <div class="custom-form-group">
+                                <label>Alternative Contact Phone Number <span class="label-asterik">*</span></label>
+                                <div class="custom-input-group">
+                                    <input type="tel" name="alt_contact_num" id="alt_contact_num" value="{{ profile.alternative_contact_phonenumber }}" placeholder="" {% if not profile.alternative_contact_phonenumber %} required {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="col-xs-6 profile-save">
+                        <button id = "save" type="submit" class="btn btn-action btn-form-submit">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock main %}

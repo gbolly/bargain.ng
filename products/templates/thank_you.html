@@ -1,0 +1,14 @@
+{% extends "standard_page.html" %}
+{% load static %}
+
+{% block head_title %}Successful Booking{% endblock %}
+
+{% block extended_css %}
+    <link rel="stylesheet" href="{% static 'css/products/center_booking_form.css' %}" />
+{% endblock %}
+
+{% block main %}
+    <h2>Your new offer have been received. Thank you for making an offer for {{product}}. The seller will get back to you within the next hour if the offer is accepted or not.</h2>
+    <a class="find green-round-button" href="/products">Checkout more Products</a>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "standard_page.html" %}
+{% load static %}
+
+{% block head_title %}Counter Offer{% endblock %}
+
+{% block extended_css %}    
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        {% if messages %}
+            <div class="col-sm-12 no-left">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <a class="close" data-dismiss="alert">×</a>
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="col-xs-11 col-sm-5 col-lg-9 form-card">
+            <header class="row">
+                <div class="col-lg-6">
+                    <h1>Make new offer</h1>
+                </div>
+            </header>
+            <div class="row reg-form">
+                <div class="col-sm-12">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="custom-form-group">
+                            {{ form.counter_price.errors }}
+                            <div class="custom-input-group">
+                                <input type="number" name="counter_price" id="counter_price" value={{ product.price }}>
+                            </div>
+                        </div>
+                        <div class="row center-buttons">
+                            <div>
+                                <input type="submit" value="Make an offer" class="btn btn-action btn-form-submit" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

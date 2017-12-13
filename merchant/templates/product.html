@@ -1,0 +1,44 @@
+{% extends "standard_page.html" %}
+{% load cloudinary %}
+{% load static %}
+
+{% block extended_css %}
+    <link rel="stylesheet" href="{% static 'css/products/center_styling.css' %}">
+{% endblock extended_css %}
+
+
+{% block main %}
+    {% if messages %}
+        <div class="col-sm-12 no-left">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <a class="close" data-dismiss="alert">×</a>
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="row container-fluid" id="deals-section">
+        {% for products in rendered_product_list.listing %}
+            <div>{{products.centerphoto_set.all}}</div>
+            <div class="col-md-4">
+                <div class="card">
+                    {% for image in products.productphoto_set.all|slice:"1" %}
+                        {% cloudinary image.image Image_Effects.LISTING %}
+                    {% endfor %}
+                    <div class="card-block">
+                        <h4 class="card-title">{{ products.name }}</h4>
+                        <p class="card-text">{{ products.price }}</p>
+                        <p class="card-text updated"><small class="text-muted">Last updated {{ products.date_last_modified }}</small></p>
+                        <p class="read-on">
+                            <a href="{% url 'product_detail' slug=products.slug %}">More details</a>
+                        </p>
+                        {% if request.user.userprofile.is_merchant %}
+                            <a href="{% url 'merchant_manage_indv_products' username=request.user product_slug=products.slug %}" class="btn btn-primary edit">Manage Your Products</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock main %}

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAWA,UAAW;EACP,KAAK,EAAE,MAAM;;AAGjB,MAAO;EACH,MAAM,EAAE,cAAc;EACtB,UAAU,EAAE,IAAI;EAGR,wBAAG;IACC,OAAO,EAAE,IAAI;IACb,cAAc,EAAE,SAAS",
+"sources": ["../../../sass/merchant/booking_table.scss"],
+"names": [],
+"file": "booking_table.css"
+}

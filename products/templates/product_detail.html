@@ -1,0 +1,106 @@
+{% extends "standard_page.html" %}
+{% load static %}
+{% load cloudinary %}
+
+{% block extended_css %}
+    <link rel="stylesheet" href="{% static 'css/products/center_individual_styling.css' %}">
+{% endblock extended_css %}
+
+{% block main %}
+    <div id="center">
+        <div id="center-container" class="center-individual">
+            <section class="top-block">
+                <div>{{image}}</div>
+                {% cloudinary image height='500' %}
+                <div id="top-image" class="bg-image">
+                    <h1>{{ product_name }}</h1>
+                    {% if not request.user.userprofile.is_merchant %}
+                        <div class="ctas center">
+                            <a class="bright-blue-round-button book-now" href="{% url 'offering_create' slug=product_slug %}">Buy now <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+            <div class="white-container">
+                <div class="container">
+                    <section class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <a class="side-header" href="#">{{product_owner}}</a>
+                                <p>Reviews: 5 star</p>
+                                {% for facility in center_capacity %}
+                                    <li>{{facility}}</li>
+                                {% endfor %}
+                                <p>{{ center_address }}</p>
+                                <h3>More about {{product_name}}</h3>
+                                <div class="other-data">
+                                    <div class="data-block">
+                                        <div class="data-col">
+                                            <h4 class="area">Quantity</h4>
+                                            {% if product_quantity == 1 %}
+                                                <div>Only {{ product_quantity }} item available</div>
+                                            {% elif product_quantity == 0 %}
+                                                <div>No item available</div>
+                                            {% else %}
+                                               <div>{{ product_quantity }} items available</div>
+                                           {% endif %} 
+                                        </div>
+                                        <div class="data-col">
+                                            <h4 class="location">Sellers Location</h4>
+                                            <div>{{ product_address }}</div>
+                                        </div>
+                                        <div class="data-col">
+                                            <h4 class="price">Price</h4>
+                                            <div>{{ product_price }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="center-body">
+                            <div class="center-post">
+                                <div class="center-post-description">
+                                    <p>{{ product_description }}</p>
+                                    <p>&nbsp;</p>
+                                    {% for photos in photo %}
+                                        <a href="#" class="pop">
+                                            {% cloudinary photos.image Image_Effects.THUMBNAIL %}
+                                        </a>
+                                        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">              
+                                                    <div class="modal-body">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <img src="" class="imagepreview" style="width: 100%;" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="btn-cta">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs">
+                                        <div class="apply center">
+                                            {% if not request.user.userprofile.is_merchant %}
+                                                <div class="col-lg-6 col-md-12 col-sm-12 hidden-xs">
+                                                    <a class="bright-blue-round-button btn-block apply-external" href="{% url 'offering_create' slug=product_slug %}">Buy Now <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 hidden-xs">
+                                                    <a class="bright-blue-round-button btn-block apply-external" href="{% url 'counter_offer' slug=product_slug %}">Make offer <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                                </div>
+                                            {% else %}
+                                                <a class="bright-blue-round-button btn-block apply-external" href="{% url 'merchant_manage_indv_products' username=request.user product_slug=product_slug %}">Manage <i class="fa fa-wrench" aria-hidden="true"></i></a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

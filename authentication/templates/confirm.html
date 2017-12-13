@@ -1,0 +1,32 @@
+{% extends "standard_page.html" %}
+{% load static %}
+
+{% block main %}
+
+    <section class="row">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="col-sm-8 activation-msg">
+                    <h2>Activation mail sent!</h2>
+                    <div class="well">
+                    <p>You have successfully registered. A mail has been sent to your email address {{ message }}. Follow the link in the mail to activate your account</p>
+                    <br >
+                    <P>bargain.ng Team</P>
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% else %}
+
+            <div class="col-sm-8 activation-msg">
+                <h2>Account creation failed!</h2>
+                <div class="well">
+                <P>Please Re-enter you signup details</P>
+            </div>
+            </div>
+
+        {% endif %}
+
+    </section>
+
+{% endblock %}
