@@ -6,7 +6,7 @@ from django.template.response import TemplateResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 
-from models import Product
+from products.models import Product
 
 
 class ProductListBaseView(View):
