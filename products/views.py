@@ -17,7 +17,7 @@ from background_task import background
 
 from .forms import OfferingForm, CounterOfferForm, ImageForm, ProductForm
 from .models import Product, Offering, ProductPhoto
-from context_processor import Image_Effects
+from products.context_processor import Image_Effects
 
 
 EMAIL_SENDER = 'karamba.com.ng'
