@@ -18,7 +18,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
 
 from authentication.hashs import UserHasher as Hasher
-from forms import EmailForm, ResetPasswordForm, UserSignupForm
+from authentication.forms import EmailForm, ResetPasswordForm, UserSignupForm
 # from web.merchant.forms import MerchantForm
 # from web.merchant.models import Merchant
 # from web.accounts.models import UserProfile
