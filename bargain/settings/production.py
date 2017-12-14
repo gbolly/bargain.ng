@@ -2,8 +2,8 @@ from .base import *
 import dj_database_url
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ['bargain.ng.herokuapp.com', 'http://0.0.0.0:5000']
+DEBUG = True
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost']
 SITE_ID = 3
 DATABASES = {'default': dj_database_url.config()}
 
