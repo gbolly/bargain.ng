@@ -1,8 +1,3 @@
-# import pyotp
-# from nexmo.libpynexmo.nexmomessage import NexmoMessage
-import StringIO
-import time
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import User
