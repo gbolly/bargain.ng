@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin import widgets
 from cloudinary.forms import CloudinaryJsFileField, CloudinaryUnsignedJsFileField
 
-from .models import Offering, OfferingStatus, Product, ProductPhoto
+from .models import Offering, OfferingStatus, Product, ProductPhoto, CounterOffering
 
 
 class OfferingForm(forms.ModelForm):
@@ -33,7 +33,7 @@ class CounterOfferForm(forms.ModelForm):
 
     class Meta:
         model = Offering
-        fields = ['counter_price']
+        fields = ['counter_price', 'counter_price_text']
 
 
 class ProductForm(forms.ModelForm):

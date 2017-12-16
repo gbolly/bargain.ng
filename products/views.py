@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 from background_task import background
 
 from .forms import OfferingForm, CounterOfferForm, ImageForm, ProductForm
-from .models import Product, Offering, ProductPhoto
+from .models import Product, Offering, ProductPhoto, CounterOffering
 from products.context_processor import Image_Effects
 
 
@@ -62,14 +62,13 @@ def product_detail(request, slug):
         'image':image
     })
 
-def counter_offer_view(request, slug, model_class=Product, form_class=CounterOfferForm, template_name='products/new_offer.html'):
+def counter_offer_view(request, slug, id_params=None, model_class=Product, form_class=CounterOfferForm, template_name='products/new_offer.html'):
 
     cls_default_msgs = {
         'not_signed_in': 'You must be signed in to purchase this product',
         'min_price': 'Product price cannot go below offer amount'
     }
     offer_made = False
-
     product = get_object_or_404(model_class, slug=slug)
     args = dict()
 
@@ -77,23 +76,31 @@ def counter_offer_view(request, slug, model_class=Product, form_class=CounterOff
         form = form_class(request.user, product, request.POST)
         if request.user.is_authenticated():
             if form.is_valid():
-                offering = form.save(commit=False)
-                offering.product = product
-                offering.user_id = request.user.id
-                offering.customer_name = request.user.username
-                offering.customer_email = request.user.email
-                offering.is_approved = False
+                if id_params:
+                    update_fields = {
+                        'counter_price': form.cleaned_data.get("counter_price"),
+                        'counter_price_text': form.cleaned_data.get("counter_price_text")
+                    }
+                    Offering.objects.filter(id=id_params).update(**update_fields)
+                else:
+                    offering = form.save(commit=False)
+                    offering.product = product
+                    offering.user_id = request.user.id
+                    offering.customer_name = request.user.username
+                    offering.customer_email = request.user.email
+                    offering.is_accepted = False
 
-                counter_price = form.cleaned_data.get("counter_price")
+                    counter_price = form.cleaned_data.get("counter_price")
+                    counter_price_text = form.cleaned_data.get("counter_price_text")
 
-                # TODO: There need to be a check in here so that we can know 
-                # if the countere offer is not less than the merchants minimum
-                # asking price otherwise it's a waste of time for the buyer.
+                    # TODO: There need to be a check in here so that we can know 
+                    # if the countere offer is not less than the merchants minimum
+                    # asking price otherwise it's a waste of time for the buyer.
 
-                offering.save()
-                args["slug"] = slug
-                args["product"] = product.name
-                offer_made = True
+                    offering.save()
+                    args["slug"] = slug
+                    args["product"] = product.name
+                    offer_made = True
             return render(request, 'thank_you.html', {'product': product})
     else:
         return render(
@@ -113,7 +120,7 @@ def counter_offer_view(request, slug, model_class=Product, form_class=CounterOff
 def notify_user(user_id):
     print("sending mail to {}".format(user_id))
 
-def offering_view(request, slug, model_class=Product, form_class=OfferingForm, template_name='products/offering_form.html'):
+def offering_view(request, slug, id_params=None, model_class=Product, form_class=OfferingForm, template_name='products/offering_form.html'):
 
     cls_default_msgs = {
         'not_signed_in': 'You must be signed in to purchase this product',
@@ -123,38 +130,48 @@ def offering_view(request, slug, model_class=Product, form_class=OfferingForm, t
 
     if request.POST:
         form = form_class(request.user, product, request.POST)
+        offer_obj = Offering.objects.filter(id=id_params)
         if request.user.is_authenticated():
             if form.is_valid():
-                offering = form.save(commit=False)
-                offering.product = product
-                offering.user_id = request.user.id
-                offering.is_approved = False\
+                if offer_obj:
+                    if offer_obj[0].is_accepted:
+                        update_fields = {
+                            'phone_number': form.cleaned_data.get("phone_number"),
+                            'address': form.cleaned_data.get("address"),
+                            'customer_name': form.cleaned_data.get("customer_name")
+                        }
+                        offer_obj.update(**update_fields)
+                else:
+                    offering = form.save(commit=False)
+                    offering.product = product
+                    offering.user_id = request.user.id
+                    offering.is_approved = False
 
-                offering.save()
-                args["slug"] = slug
-                args["product"] = product.name
+                    offering.save()
+                    args["slug"] = slug
+                    args["product"] = product.name
 
-                # compose the email
-                booking_email_context = RequestContext(
-                    request,
-                    {'username': offering.customer_name,
-                     'product': product.name,
-                     'offering': offering.customer_email,
-                    },
-                )
+                    # compose the email
+                    booking_email_context = RequestContext(
+                        request,
+                        {'username': offering.customer_name,
+                         'product': product.name,
+                         'offering': offering.customer_email,
+                        },
+                    )
 
-                receipient = str(offering.customer_email)
+                    receipient = str(offering.customer_email)
 
-                subject, from_email, to = 'TheEventDiary: Booking Recieved', EMAIL_SENDER, receipient
-                html_content=loader.get_template('products/booking_email.html').render(booking_email_context)
-                text_content=loader.get_template('products/booking_email.txt').render(booking_email_context)
+                    subject, from_email, to = 'TheEventDiary: Booking Recieved', EMAIL_SENDER, receipient
+                    html_content=loader.get_template('products/booking_email.html').render(booking_email_context)
+                    text_content=loader.get_template('products/booking_email.txt').render(booking_email_context)
 
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                msg.attach_alternative(html_content, "text/html")
-                response = msg.send()
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                    msg.attach_alternative(html_content, "text/html")
+                    response = msg.send()
 
-                if response == 1:
-                    messages.add_message(request, messages.INFO, offering.customer_email)
+                    if response == 1:
+                        messages.add_message(request, messages.INFO, offering.customer_email)
 
                 return render(request, 'thank_you.html', {"product": product.name})
             else :

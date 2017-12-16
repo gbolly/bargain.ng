@@ -31,7 +31,11 @@
                         <div class="custom-form-group">
                             {{ form.counter_price.errors }}
                             <div class="custom-input-group">
-                                <input type="number" name="counter_price" id="counter_price" value={{ product.price }}>
+                                <input type="number" name="counter_price" id="counter_price" placeholder="Add price">
+                            </div>
+                            {{ form.counter_price_text.errors }}
+                            <div class="custom-input-group">
+                                <input type="text" name="counter_price_text" id="counter_price_text" placeholder="Add Note">
                             </div>
                         </div>
                         <div class="row center-buttons">

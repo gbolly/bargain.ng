@@ -37,7 +37,7 @@
                         <div class="custom-form-group">
                             {{ form.customer_email.errors }}
                             <div class="custom-input-group">
-                                <input type="email" name="customer_email" id="customer_email" placeholder="Your Email">
+                                <input type="email" name="customer_email" id="customer_email" value="{{request.user.email}}">
                             </div>
                         </div>
                         <div class="custom-form-group">

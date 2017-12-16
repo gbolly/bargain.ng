@@ -33,7 +33,6 @@ SECRET_KEY = envvars.get('BARGAIN_SECRET_KEY')
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '8rr+un&$p6-mi@xfja-bx6+dqd$y8*f@$h)dg$bs=o192=h7rr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

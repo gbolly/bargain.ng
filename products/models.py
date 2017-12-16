@@ -69,9 +69,18 @@ class Offering(models.Model):
     customer_email = models.EmailField(max_length=70, blank=True, null=True)
     phone_number = PhoneNumberField(blank=True, null=True)
     address = models.CharField(max_length=100, null=False, blank=False)
-    counter_price = models.IntegerField(blank=True, null=True)
     is_approved = models.BooleanField(default=False)
+    counter_price = models.IntegerField(blank=True, null=True)
+    counter_price_text = models.CharField(max_length=250, blank=True, null=True)
+    is_accepted = models.BooleanField(default=False)
     approved_price = models.IntegerField(blank=True, null=True)
+
+
+class CounterOffering(models.Model):
+    user = models.ForeignKey(User)
+    product = models.ForeignKey(Product) 
+    customer_name = models.CharField(max_length=100, null=False, blank=False)
+    customer_email = models.EmailField(max_length=70, blank=True, null=True)
 
 
 class OfferingStatus(TranslationModelMixin, TranslatableModel):

@@ -86,14 +86,21 @@ def offering_action(request, username):
         ids.append(offering_id)
 
     for i in ids:
-        approve_clicked = request.GET.keys()
-        for val in approve_clicked:
-            if val == str(i):
-                offering = Offering.objects.filter(id=i).get()
-                args = dict()
+        action_button_clicked = request.GET.keys()
+        for val in action_button_clicked:
+            offering = Offering.objects.filter(id=i).get()
+            args = dict()
+            if val == 'accept':
+                if offering.is_accepted == False:
+                    offering.is_accepted = True
+                    offering.approved_price = offering.counter_price
+                    args["email"] = offering.customer_email
+                    args["name"] = offering.customer_name
+                    offering.save()
+                    return render(request, 'manage_offering_success.html', args)
+            if val == 'approve':
                 if offering.is_approved == False:
                     offering.is_approved = True
-                    offering.approved_price = offering.counter_price
                     args["email"] = offering.customer_email
                     args["name"] = offering.customer_name
                     offering.save()
@@ -124,6 +131,7 @@ def offering_action(request, username):
                         messages.add_message(request, messages.INFO, 'Purchase approved')
 
                     return render(request, 'manage_offering_success.html', args)
+
                 else:
                     messages.add_message(
                         request, messages.ERROR,
