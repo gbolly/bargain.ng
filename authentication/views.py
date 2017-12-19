@@ -382,8 +382,8 @@ class UserRegistrationView(View):
 
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
-            # response = msg.send()
-            response = send_mail(subject, text_content, from_email, [to], fail_silently=False)
+            response = msg.send()
+            # response = send_mail(subject, text_content, from_email, [to], fail_silently=False)
 
             # inform the user of activation mail sent
             if response == 1:

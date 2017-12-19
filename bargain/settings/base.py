@@ -117,13 +117,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = envvars.get('EMAIL_HOST')
-EMAIL_HOST_USER = envvars.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = envvars.get('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = envvars.get('EMAIL_HOST')
+# EMAIL_HOST_USER = envvars.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = envvars.get('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = 587
+# EMAIL_USE_SSL = True
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Static files (CSS, JavaScript, Images)

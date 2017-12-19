@@ -17,3 +17,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 STATIC_ROOT= os.path.join(BASE_DIR,'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'gbolly_01'
+EMAIL_HOST_PASSWORD = 'pastor01'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

@@ -26,7 +26,7 @@ class UserHasher:
     alphabet = 'abcdefghijklmnopqrstuvwyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     delim = "x"
     # from settings.py
-    secret_key = os.getenv('SECRET_KEY')
+    secret_key = os.getenv('BARGAIN_SECRET_KEY')
 
     @staticmethod
     def gen_hash(registered_user):
