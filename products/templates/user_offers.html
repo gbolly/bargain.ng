@@ -23,6 +23,7 @@
                     <th>Product</th>
                     <th>Product Price</th>
                     <th>Counter Price</th>
+                    <th>Previous Counter Price</th>
                     <th>Purchase Approved</th>
                     <th>Counter Offer Accepted</th>
                     <th>Action</th>
@@ -34,13 +35,16 @@
                         <td>{{offering.product}}</td>
                         <td>{{offering.product.price}}</td>
                         <td>{{offering.counter_price}}</td>
+                        <td>{{offering.previous_counter_price}}</td>
                         <td>{{offering.is_approved}}</td>
                         <td>{{offering.is_accepted}}</td>
                         <td>
                             <form action="{% url 'offering_status' username=request.user %}" method="get">
                                 <a class="btn btn-primary" href="{% url 'offering_create' slug=offering.product.slug id_params=offering.id %}">Buy Now</a>
-                                <a type="submit" class="btn btn-primary" id="{{offering.id}}" href="{% url 'counter_offer' slug=offering.product.slug id_params=offering.id %}">Counter Offer</a>
-                                <input type="submit" class="btn btn-danger" value="Reject" name="decline" id="{{offering.id}}">
+                                {% if not offering.is_accepted %}
+                                    <a type="submit" class="btn btn-primary" id="{{offering.id}}" href="{% url 'counter_offer' slug=offering.product.slug id_params=offering.id %}">Counter Offer</a>
+                                    <input type="submit" class="btn btn-danger" value="Reject" name="decline" id="{{offering.id}}">
+                                {% endif %}
                             </form>
                         </td>
                     </tr>

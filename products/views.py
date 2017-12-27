@@ -71,6 +71,7 @@ def counter_offer_view(request, slug, id_params=None, model_class=Product, form_
     offer_made = False
     product = get_object_or_404(model_class, slug=slug)
     args = dict()
+    deal = Offering.objects.get(id=id_params)
 
     if request.POST:
         form = form_class(request.user, product, request.POST)
@@ -79,7 +80,8 @@ def counter_offer_view(request, slug, id_params=None, model_class=Product, form_
                 if id_params:
                     update_fields = {
                         'counter_price': form.cleaned_data.get("counter_price"),
-                        'counter_price_text': form.cleaned_data.get("counter_price_text")
+                        'counter_price_text': form.cleaned_data.get("counter_price_text"),
+                        'previous_counter_price': deal.counter_price
                     }
                     Offering.objects.filter(id=id_params).update(**update_fields)
                 else:
@@ -111,9 +113,7 @@ def counter_offer_view(request, slug, id_params=None, model_class=Product, form_
             }
         )
 
-    print(offer_made, '-'*80)
     if offer_made:
-        print(product.user_id,request.user.id)
         notify_user(request.user.id)
 
 @background(schedule=60)
