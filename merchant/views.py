@@ -59,12 +59,12 @@ def offering_list_view(request, username):
     offering_list = list()
 
     for product in products:
-        offerings = Offering.objects.filter(product_id=product.id)
+        offerings = Offering.objects.filter(product_id=product.id).order_by('date_last_modified')
         for i, offering in enumerate(offerings):
             offering_dict = {
                 'offering': offering
             }
-            offering_list.append(offering_dict).order_by('-date_last_modified')
+            offering_list.append(offering_dict)
     return render(request, "manage_offerings.html", {'offering_list': offering_list})
 
 def offering_action(request, username):

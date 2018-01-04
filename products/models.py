@@ -8,6 +8,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django_libs.models_mixins import TranslationModelMixin
+from datetime import datetime
 
 
 def valid_pct(val):
@@ -75,8 +76,8 @@ class Offering(models.Model):
     counter_price_text = models.CharField(max_length=250, blank=True, null=True)
     is_accepted = models.BooleanField(default=False)
     approved_price = models.IntegerField(blank=True, null=True)
-    date_created = models.DateField(auto_now_add=True)
-    date_last_modified = models.DateField(auto_now=True)
+    date_created = models.DateTimeField(default=datetime.now, blank=True)
+    date_last_modified = models.DateTimeField(default=datetime.now, blank=True)
 
 
 class CounterOffering(models.Model):
@@ -84,8 +85,8 @@ class CounterOffering(models.Model):
     product = models.ForeignKey(Product) 
     customer_name = models.CharField(max_length=100, null=False, blank=False)
     customer_email = models.EmailField(max_length=70, blank=True, null=True)
-    date_created = models.DateField(auto_now_add=True)
-    date_last_modified = models.DateField(auto_now=True)
+    date_created = models.DateTimeField(default=datetime.now, blank=True)
+    date_last_modified = models.DateTimeField(default=datetime.now, blank=True)
 
 
 class OfferingStatus(TranslationModelMixin, TranslatableModel):
