@@ -50,6 +50,7 @@ def product_detail(request, slug):
         image = ""
 
     return render(request, 'product_detail.html', {
+        'product_id': product.id,
         'product_name': product.name,
         'product_description':product.description,
         'product_price':product.price,
@@ -71,13 +72,13 @@ def counter_offer_view(request, slug, id_params=None, model_class=Product, form_
     offer_made = False
     product = get_object_or_404(model_class, slug=slug)
     args = dict()
-    deal = Offering.objects.get(id=id_params)
 
     if request.POST:
         form = form_class(request.user, product, request.POST)
         if request.user.is_authenticated():
             if form.is_valid():
                 if id_params:
+                    deal = Offering.objects.get(id=id_params)
                     update_fields = {
                         'counter_price': form.cleaned_data.get("counter_price"),
                         'counter_price_text': form.cleaned_data.get("counter_price_text"),
@@ -195,7 +196,7 @@ def offering_view(request, slug, id_params=None, model_class=Product, form_class
 
 def offerings_by_user(request, slug):
     userid = request.user.id
-    offerings = Offering.objects.filter(user_id=userid)
+    offerings = Offering.objects.filter(user_id=userid).order_by('-date_last_modified')
     return render(request, "user_offers.html", {"offers":offerings})
 
 def new_product(request):

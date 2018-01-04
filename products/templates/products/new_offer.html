@@ -34,9 +34,11 @@
                                 <input type="number" name="counter_price" id="counter_price" placeholder="Add price">
                             </div>
                             {{ form.counter_price_text.errors }}
-                            <div class="custom-input-group">
-                                <input type="text" name="counter_price_text" id="counter_price_text" placeholder="Add Note">
-                            </div>
+                            {% if not request.user.userprofile.is_merchant %}
+                                <div class="custom-input-group">
+                                    <input type="text" name="counter_price_text" id="counter_price_text" placeholder="Add Note">
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="row center-buttons">
                             <div>

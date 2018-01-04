@@ -64,7 +64,7 @@ def offering_list_view(request, username):
             offering_dict = {
                 'offering': offering
             }
-            offering_list.append(offering_dict)
+            offering_list.append(offering_dict).order_by('-date_last_modified')
     return render(request, "manage_offerings.html", {'offering_list': offering_list})
 
 def offering_action(request, username):
