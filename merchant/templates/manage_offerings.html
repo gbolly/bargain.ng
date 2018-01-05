@@ -51,6 +51,7 @@
                                 {% if offering.offering.counter_price and not offering.offering.approved_price %}
                                     <a type="submit" class="btn btn-primary" id="{{offering.offering.id}}" href="{% url 'counter_offer' slug=offering.offering.product.slug id_params=offering.offering.id %}">Counter Offer</a>
                                     <input type="submit" class="btn btn-primary" value="Accept" name="accept" id="{{offering.offering.id}}">
+                                    <input type="submit" class="btn btn-danger" value="Decline" name="decline" id="{{offering.offering.id}}">
                                 {% else %}
                                     <input type="submit" class="btn btn-primary" value="Approve" name="approve" id="{{offering.offering.id}}">
                                     <input type="submit" class="btn btn-danger" value="Decline" name="decline" id="{{offering.offering.id}}">
