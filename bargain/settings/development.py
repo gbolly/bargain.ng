@@ -20,6 +20,6 @@ STATIC_ROOT = 'staticfiles'
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'gbolly_01'
-EMAIL_HOST_PASSWORD = 'pastor01'
+EMAIL_HOST_PASSWORD = 'notreal-forsmallmanofGodlevel1'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
